@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: true });
  
 // Running Server Details.
-var server = app.listen(8082, function () {
+var server = app.listen(process.env.PORT, function () {
   var host = server.address().address
   var port = process.env.PORT || server.address().port
   console.log("img2pdf listening at %s:%s Port", host, port)
