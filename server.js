@@ -12,7 +12,7 @@ var server = app.listen(process.env.PORT, function () {
 });
  
  
-app.get('/form', function (req, res) {
+app.get('/', function (req, res) {
   var html='';
   html +="<body>";
   html += "<form action='/thank'  method='post' name='form1'>";
