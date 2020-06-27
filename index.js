@@ -1,21 +1,20 @@
+var http = require('http');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
-const prompt = require('prompt-sync')();
 const escape = require('escape-path-with-spaces');
-var express = require('express');
 const naturalSort = require('node-natural-sort');
 const doc = new PDFDocument({ autoFirstPage: false });
 var logger = require('./server')
 var path = require('path')
 
-console.log(logger);
+// console.log(logger);
 
 runpdfcreator(logger.a)
 function runpdfcreator(input) {
 
-  testFolder = escape(input);
+  // testFolder = escape(input);
 
-
+testFolder= escape(__dirname +"/PDFs");
 
 
  
@@ -37,21 +36,21 @@ function runpdfcreator(input) {
   function counterforpdfname() {
     return countforpdf++;
   }
-
+ 
 
   doc.pipe(fs.createWriteStream(path1));
 
   let count = 0;
   var imgpath;
   var arraylistforpath = [];
-  var resultsArray = fs.readdirSync(testFolder);
+  var resultsArray = fs.readdirSync(__dirname +"/uploads");
 
 
   resultsArray.forEach(file => {
 
 
 
-    imgpath = (`${input}/${file}`);
+    imgpath = (__dirname +`/uploads/${file}`);
     if(path.extname(file)=='.png'|| path.extname(file)=='.PNG'){
     arraylistforpath.push(imgpath);
     // console.log ("recorded png")
@@ -74,5 +73,9 @@ function runpdfcreator(input) {
 
   doc.end()
 
+  
+    module.exports.pdfpath1 = path1;
+
+  
 }
 

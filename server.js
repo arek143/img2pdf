@@ -1,46 +1,69 @@
-var http = require("http");
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({ extended: true });
- 
-// Running Server Details.
-var server = app.listen(process.env.PORT, function () {
-  var host = server.address().address
-  var port = process.env.PORT || server.address().port
-  console.log("img2pdf listening at %s:%s Port", host, port)
-});
- 
- 
-app.get('/', function (req, res) {
-  var html='';
-  html +="<body>";
-  html += "<form action='/thank'  method='post' name='form1'>";
-  html += "Enter path of images: <input type= 'text' name='name'>";
-  html += "<input type='submit' value='submit'>";
-  html += "<INPUT type='reset'  value='reset'>";
-  html += "</form>";
-  html += "</body>";
-  res.send(html);
-  delete require.cache[require.resolve('./index.js')]
+const express = require('express')
+const bodyParser= require('body-parser')
+const multer = require('multer');
+const fs = require('fs');
+var path = require('path')
 
-});
  
-app.post('/thank', urlencodedParser, function (req, res){
-  var reply='';
-  reply = req.body.name;
-  res.send("your pdf will be available shortly at path"+reply);
-
- runpdffunc(reply);
+//CREATE EXPRESS APP
+const app = express();
+app.use(bodyParser.urlencoded({extended: true}))
  
- });
+ var Port= process.env.PORT || 3000
+//ROUTES WILL GO HERE
+app.get('/',function(req,res){
+    // console.log(__dirname);
+    var resultsArray=   fs.readdirSync(__dirname +"/uploads");
 
-function runpdffunc(input) {
-  
-  var a=input;
-  module.exports.a =a
-  require('./index');
-  console.log("your form is submitted")
+    res.sendFile(__dirname + '/index.html');
+    console.log(resultsArray);
+    if(resultsArray!= null)
+    resultsArray.forEach(file => {
 
 
-}
+
+      imgpath = (__dirname +`/uploads/${file}`);
+      if(path.extname(file)=='.png'|| path.extname(file)=='.PNG'){
+        fs.unlinkSync(imgpath)
+        // arraylistforpath.push(imgpath);
+      // console.log ("recorded png")
+      }
+    });
+    resultsArray =null  ;
+    delete require.cache[require.resolve('./index.js')]
+   
+  });
+ 
+app.listen(Port, () => console.log(`Server started on port ${Port}`));
+
+//server.js
+ 
+ 
+// SET STORAGE
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads')
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+  })
+   
+  var upload = multer({ storage: storage })
+
+  //Uploading multiple files
+app.post('/uploadmultiple', upload.array('myFiles', 120), (req, res, next) => {
+    const files = req.files
+    if (!files) {
+      const error = new Error('Please choose files')
+      error.httpStatusCode = 400
+      return next(error)
+    }
+   
+    
+   
+    var pdfpath =  require('./index');
+    console.log(pdfpath)
+       res.sendFile(pdfpath.pdfpath1);
+        // res.send(files)
+  })
