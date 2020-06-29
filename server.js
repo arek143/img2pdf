@@ -3,6 +3,7 @@ const bodyParser= require('body-parser')
 const multer = require('multer');
 const fs = require('fs');
 var path = require('path')
+let ejs = require('ejs');
 
  
 //CREATE EXPRESS APP
@@ -59,11 +60,22 @@ app.post('/uploadmultiple', upload.array('myFiles', 120), (req, res, next) => {
       error.httpStatusCode = 400
       return next(error)
     }
-   
-    
-   
     var pdfpath =  require('./index');
     console.log(pdfpath)
-       res.sendFile(pdfpath.pdfpath1);
-        // res.send(files)
+    // var url = window.location;
+  //   var html='';
+  // html +="<body>";
+  // html += "<a href="+url+pdfpath.pdfpath1+" target='blank'>";
+  // html += "Click here</a>";
+  // html += "</body>";
+   
+ 
+      //  res.sendFile(pdfpath.pdfpath1);
+     function function1(){
+        res.download(pdfpath.pdfpath1)
+      }
+
+      setTimeout(function1, 3000);
+
+        // res.send(html);
   })
