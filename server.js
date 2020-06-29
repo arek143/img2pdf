@@ -18,7 +18,7 @@ app.get('/',function(req,res){
 
     res.sendFile(__dirname + '/index.html');
     console.log(resultsArray);
-    if(resultsArray!= null)
+    if(resultsArray!= null || resultsArray != [])
     resultsArray.forEach(file => {
 
 
