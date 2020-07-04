@@ -10,13 +10,14 @@ let ejs = require('ejs');
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}))
  
- var Port= process.env.PORT || 3000
+ var Port= process.env.PORT || 3000;
 //ROUTES WILL GO HERE
 app.get('/',function(req,res){
     // console.log(__dirname);
-    var resultsArray=   fs.readdirSync(__dirname +"/uploads");
-
     res.sendFile(__dirname + '/index.html');
+    var resultsArray= fs.readdirSync(__dirname +"/uploads");
+
+   
     console.log(resultsArray);
     if(resultsArray!= null || resultsArray != [])
     resultsArray.forEach(file => {
@@ -30,8 +31,8 @@ app.get('/',function(req,res){
       // console.log ("recorded png")
       }
     });
-    resultsArray =null  ;
-    delete require.cache[require.resolve('./index.js')]
+    resultsArray =null;
+  
    
   });
  
