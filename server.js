@@ -55,7 +55,7 @@ var storage = multer.diskStorage({
 
   //Uploading multiple files
 app.post('/uploadmultiple', upload.array('myFiles', 120), (req, res, next) => {
-    const files = req.files
+    var files = req.files
     if (!files) {
       const error = new Error('Please choose files')
       error.httpStatusCode = 400
@@ -74,6 +74,7 @@ app.post('/uploadmultiple', upload.array('myFiles', 120), (req, res, next) => {
       //  res.sendFile(pdfpath.pdfpath1);
      function function1(){
         res.download(pdfpath.pdfpath1)
+        pdfpath=""
       }
 
       setTimeout(function1, 3000);
